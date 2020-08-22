@@ -25,20 +25,20 @@ exports.hitung = (jamMulai, jamSelesai, kecepatanAwal) => {
     let detikMulai = (arrMulai[0] * 3600) + (arrMulai[1] * 60) + arrMulai[2];
     let detikSelesai = (arrSelesai[0] * 3600) + (arrSelesai[1] * 60) + arrSelesai[2];
 
-    // JARAK setelah 5 menit
+    // JARAK dari pukul 10:12:21 - 10:17:21 saat kecepatan tetap 6 m/s
+    jarak += getJarak(5, kecepatan);
+    detikMulai += 5 * 60;
+
+    // JARAK setelah 5 menit & kecepatan dinaikkan 2 m/s
     kecepatan += 2;
-    waktu = 5 * 60;
-    jarak += waktu * kecepatan;
+    jarak += getJarak(10, kecepatan);
+    detikMulai += 10 * 60;
 
-    detikMulai += waktu;
-
-    // JARAK setiap 10 menit berikutnya dan kecepatan bertambah 1
+    // JARAK setiap 10 menit berikutnya & kecepatan bertambah 1 m/s
     while (detikMulai <= detikSelesai) {
         kecepatan += 1;
-        waktu = 10 * 60;
-        jarak += waktu * kecepatan;
-
-        detikMulai += waktu;
+        jarak += getJarak(10, kecepatan);
+        detikMulai += 10 * 60;
     }
 
     // JARAK setelah dikurangi waktu mulai melebihi waktu selesai 
@@ -48,3 +48,6 @@ exports.hitung = (jamMulai, jamSelesai, kecepatanAwal) => {
 
     return jarak;
 }
+
+// parameter fungsi hitung jarak: waktu (satuan menit), kecepatan (satuan m/s)
+const getJarak = (waktu, kecepatan) => waktu * 60 * kecepatan;
